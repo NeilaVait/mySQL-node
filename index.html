@@ -5,17 +5,25 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="./posts.js" defer></script>
   <title>Node SQL</title>
 </head>
 
 <body>
-  <h1>node sql</h1>
+  <h1>Node sql</h1>
 
   <form action="/newpost" method="POST" autocomplete="off">
     <input type="text" placeholder="Title" name="title" /> <br />
     <textarea type="text" placeholder="Enter text" name="body"></textarea>
     <button type="submit">Create</button>
   </form>
+
+  <h2>Esami postai</h2>
+
+  <ul>
+    <li><a href="/post/1"> Post 1</a></li>
+    <li><a href=""> Post 2</a></li>
+  </ul>
 </body>
 
 </html>
