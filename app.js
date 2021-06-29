@@ -64,6 +64,28 @@ app.get('/table/create', (req, res) => {
   });
 });
 
+// create authors table
+app.get('/table/create/authors', (req, res) => {
+  const sql = `
+  CREATE TABLE authors(
+	au_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    name VARCHAR(255),
+    age INT,
+    sex VARCHAR(255),
+    post_id INT
+)
+  `;
+
+  db.query(sql, (err, result) => {
+    if (err) {
+      res.send(err.stack);
+      throw err;
+    }
+    console.log(result);
+    res.json({ msg: 'autoriu lentele sukurta', result });
+  });
+});
+
 // add new post
 app.post('/newpost', (req, res) => {
   console.log('req.body', req.body);
@@ -79,9 +101,35 @@ app.post('/newpost', (req, res) => {
   });
 });
 
+//add new author
+app.post('/newauthor', (req, res) => {
+  console.log('req.body', req.body);
+  // const newAuthor = {
+  //   name: 'bob',
+  //   age: 29,
+  //   sex: 'male',
+  //   post_id: 2,
+  // };
+  const sql = 'INSERT INTO authors SET ?';
+  db.query(sql, req.body, (err, result) => {
+    if (err) throw err.stack;
+    // res.redirect('/post');
+    res.json({ msg: 'autorius sukurtas', result });
+  });
+});
+
 // get all posts
 app.get('/post', (req, res) => {
   const sql = 'SELECT * FROM posts';
+  db.query(sql, (err, result) => {
+    if (err) throw err.stack;
+    res.json(result);
+  });
+});
+
+// get all authors
+app.get('/authors', (req, res) => {
+  const sql = 'SELECT * FROM authors';
   db.query(sql, (err, result) => {
     if (err) throw err.stack;
     res.json(result);
@@ -114,6 +162,15 @@ app.get('/post/:id/delete', (req, res) => {
   db.query(sql, (err, result) => {
     if (err) throw err.stack;
     res.redirect('/allposts');
+  });
+});
+
+// get ids and titles
+app.get('/post-ids', (req, res) => {
+  const sql = 'SELECT id, title FROM posts';
+  db.query(sql, (err, result) => {
+    if (err) throw err.stack;
+    res.json(result);
   });
 });
 
