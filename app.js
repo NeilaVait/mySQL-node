@@ -2,6 +2,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const mysql = require('mysql');
+const path = require('path');
 
 // set up connection
 const db = mysql.createConnection({
@@ -19,11 +20,14 @@ db.connect((err) => {
 
 const app = express();
 
-// middleware
+// middleware /////////////////////
 app.use(morgan('common'));
+app.use(express.json());
+app.use(express.urlencoded());
 
+// rodom musu html faila
 app.get('/', (req, res) => {
-  res.send('Express veikia normaliai');
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 // create database
@@ -60,13 +64,14 @@ app.get('/table/create', (req, res) => {
 });
 
 // add new post
-app.get('/newpost', (req, res) => {
-  const newPost = {
-    title: 'third post title',
-    body: 'third post body and something',
-  };
+app.post('/newpost', (req, res) => {
+  console.log('req.body', req.body);
+  // const newPost = {
+  //   title: 'third post title',
+  //   body: 'third post body and something',
+  // };
   const sql = 'INSERT INTO posts SET ?';
-  db.query(sql, newPost, (err, result) => {
+  db.query(sql, req.body, (err, result) => {
     if (err) throw err.stack;
     res.json({ msg: 'irasas sukurtas', result });
   });
