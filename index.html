@@ -6,24 +6,45 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="./posts.js" defer></script>
+  <script src="./authors.js" defer></script>
   <title>Node SQL</title>
 </head>
 
 <body>
   <h1>Node sql</h1>
-
+  <h3>New post</h3>
   <form action="/newpost" method="POST" autocomplete="off">
     <input type="text" placeholder="Title" name="title" /> <br />
     <textarea type="text" placeholder="Enter text" name="body"></textarea>
     <button type="submit">Create</button>
   </form>
 
+  <h3>New author</h3>
+  <form action="/newauthor" method="POST" autocomplete="off">
+    <input type="text" placeholder="Name" name="name" /> <br />
+    <input type="number" placeholder="Age" name="age"></input> <br />
+    <input type="text" placeholder="Sex" name="sex"></input><br />
+    <input type="text" placeholder="Post id" name="post_id"></input>
+    <button type="submit">Create</button>
+  </form>
+
   <h2>Esami postai</h2>
 
-  <ul>
-    <li><a href="/post/1"> Post 1</a></li>
-    <li><a href=""> Post 2</a></li>
+  <ul id="ul">
+
   </ul>
+
+  <h2>Esami autoriai</h2>
+  <button id="all">All authors</button>
+  <button id="young">Young authors</button>
+  <button id="female">Female authors</button>
+  <ul id="authors">
+
+  </ul>
+
+  <select name="" id="ids">
+    <option value="nieko">Choose post</option>
+  </select>
 </body>
 
 </html>
