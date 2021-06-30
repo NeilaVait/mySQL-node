@@ -174,4 +174,22 @@ app.get('/post-ids', (req, res) => {
   });
 });
 
+// get authors and posts
+app.get('/authors/create-table', (req, res) => {
+  const sql = `
+  SELECT posts.title, authors.name, authors.age
+  FROM posts
+  INNER JOIN authors
+  ON posts.id = authors.post_id
+  `;
+  db.query(sql, (err, result) => {
+    if (err) {
+      res.json({ success: false, err: err.stack });
+      throw err.stack;
+    }
+    console.log(result);
+    res.json({ success: true, result });
+  });
+});
+
 app.listen('3000', console.log('server is running port 3000'));

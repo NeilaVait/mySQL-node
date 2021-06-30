@@ -2,6 +2,7 @@ console.log('hello from posts');
 
 const ulEl = document.getElementById('ul');
 const idSelectEl = document.getElementById('ids');
+const ulPostsAuthors = document.getElementById('posts-authors');
 
 async function getData(url) {
   try {
@@ -34,3 +35,17 @@ function generateIdSelect(data) {
 getData('/post').then((data) => generateLi(data));
 
 getData('/post-ids').then((data) => generateIdSelect(data));
+
+function generateAuthPosts(data) {
+  data.forEach(({ title, name, age }) => {
+    const li = document.createElement('li');
+    li.innerHTML = `${name}, ${age} years old. Posts: ${title}`;
+    ulPostsAuthors.append(li);
+  });
+}
+
+getData('/authors/create-table').then((data) => {
+  if (data.success) {
+    generateAuthPosts(data.result);
+  }
+});
