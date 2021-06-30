@@ -28,7 +28,7 @@ app.use(express.static(path.join(__dirname, 'static')));
 
 // rodom musu html faila
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
+  res.sendFile(path.join(__dirname, 'products.html'));
 });
 
 // create database
@@ -118,6 +118,39 @@ app.post('/newauthor', (req, res) => {
   });
 });
 
+//add new category
+app.get('/newcategory', (req, res) => {
+  // console.log('req.body', req.body);
+  const newCategory = {
+    name: 'garden',
+    product_id: 3,
+  };
+  const sql = 'INSERT INTO product_categories SET ?';
+  db.query(sql, newCategory, (err, result) => {
+    if (err) throw err.stack;
+    // res.redirect('/post');
+    res.json({ msg: 'kategorija sukurta', result });
+  });
+});
+
+// add new product
+app.get('/newproduct', (req, res) => {
+  // console.log('req.body', req.body);
+  const newProduct = {
+    product_name: 'flamethrower',
+    price: 250,
+    quantity: 2,
+    category: 2,
+  };
+
+  const sql = 'INSERT INTO products SET ?';
+  db.query(sql, newProduct, (err, result) => {
+    if (err) throw err.stack;
+    // res.redirect('/post');
+    res.json({ msg: 'produktas sukurtas', result });
+  });
+});
+
 // get all posts
 app.get('/post', (req, res) => {
   const sql = 'SELECT * FROM posts';
@@ -181,6 +214,24 @@ app.get('/authors/create-table', (req, res) => {
   FROM posts
   INNER JOIN authors
   ON posts.id = authors.post_id
+  `;
+  db.query(sql, (err, result) => {
+    if (err) {
+      res.json({ success: false, err: err.stack });
+      throw err.stack;
+    }
+    console.log(result);
+    res.json({ success: true, result });
+  });
+});
+
+// get product and categories
+app.get('/products/categories', (req, res) => {
+  const sql = `
+  SELECT products.product_name, product_categories.name, product_categories.cat_id
+  FROM products
+  INNER JOIN product_categories
+  ON products.category = product_categories.cat_id
   `;
   db.query(sql, (err, result) => {
     if (err) {
